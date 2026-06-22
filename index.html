@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تتبع الحفظ — Monopoly Memorization</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="db.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&family=Cabinet+Grotesk:wght@800;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: #02381e;
+  color: #1e1e1e;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.monopoly-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(14,84,48,0.65) 0%, #022111 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 81px),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 81px);
+  z-index: -1;
+}
+
+.board-strip-top {
+  position: fixed; top: 0; left: 0; right: 0; height: 8px; z-index: 100; pointer-events: none;
+  background: linear-gradient(90deg, #955436 0%, #955436 12.5%, #38b1e7 12.5%, #38b1e7 25%, #d93e95 25%, #d93e95 37.5%, #f7941d 37.5%, #f7941d 50%, #ff1d25 50%, #ff1d25 62.5%, #ffeb3b 62.5%, #ffeb3b 75%, #1db055 75%, #1db055 87.5%, #002ff5 87.5%, #002ff5 100%);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+.board-strip-bottom {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 8px; z-index: 100; pointer-events: none;
+  background: linear-gradient(90deg, #002ff5 0%, #002ff5 12.5%, #1db055 12.5%, #1db055 25%, #ffeb3b 25%, #ffeb3b 37.5%, #ff1d25 37.5%, #ff1d25 50%, #f7941d 50%, #f7941d 62.5%, #d93e95 62.5%, #d93e95 75%, #38b1e7 75%, #38b1e7 87.5%, #955436 87.5%, #955436 100%);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.4);
+}
+
+.container { max-width: 1350px; margin: 0 auto; padding: 30px 20px 40px; position: relative; z-index: 2; }
+
+.logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 35px; perspective: 1000px; }
+
+.monopoly-logo-box {
+  background: #e21b23; border: 5px solid #ffffff; outline: 4px solid #000000;
+  padding: 10px 40px; transform: rotate(-4.5deg) translateY(-5px);
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.8); display: inline-block; text-align: center;
+}
+
+.monopoly-logo-box h1 {
+  font-family: 'Cabinet Grotesk', 'Playfair Display', sans-serif;
+  font-size: 3.5rem; font-weight: 900; color: #ffffff; letter-spacing: 2px;
+  text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000, 4px 6px 0px rgba(0,0,0,0.4);
+  line-height: 1; text-transform: uppercase;
+}
+
+.logo-ribbon {
+  background: #d4af37; color: #000; border: 2px solid #000; padding: 2px 25px;
+  font-weight: 800; font-size: 1rem; letter-spacing: 4px;
+  transform: rotate(-2deg) translateY(-8px); box-shadow: 4px 4px 0px rgba(0,0,0,0.9);
+  text-transform: uppercase;
+}
+
+.board-center {
+  background: #cde6d0; border: 4px solid #000000; border-radius: 12px;
+  padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; overflow: hidden;
+}
+
+.board-center::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 0);
+  background-size: 16px 16px; pointer-events: none;
+}
+
+/* Timer */
+.timer-section {
+  background: #fff8eb; border: 4px solid #000000; border-radius: 8px;
+  padding: 25px; margin-bottom: 30px; text-align: center;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.8); position: relative;
+}
+
+.chest-card-banner {
+  background: #0096c7; border-bottom: 3px solid #000; margin: -25px -25px 20px;
+  padding: 12px; border-radius: 4px 4px 0 0; display: flex;
+  justify-content: center; align-items: center; gap: 10px;
+  color: #fff; font-weight: 800; letter-spacing: 1px;
+}
+
+.timer-label { font-size: 1rem; font-weight: 800; color: #333; margin-bottom: 10px; }
+
+.timer-presets { display: flex; gap: 6px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
+
+.preset-btn {
+  background: #ffffff; border: 2px solid #000000; color: #000000;
+  padding: 5px 12px; border-radius: 4px; font-family: 'Cairo', sans-serif;
+  font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: all 0.2s;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+}
+.preset-btn:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0px rgba(0,0,0,0.8); background: #fff8eb; }
+.preset-btn.active-preset { background: #0096c7; color: #ffffff; box-shadow: 1px 1px 0px rgba(0,0,0,0.8); transform: translate(1px, 1px); }
+
+.timer-display {
+  font-size: 6.5rem; font-weight: 900; font-family: 'Courier New', monospace;
+  color: #000000; line-height: 1; letter-spacing: 4px; margin: 15px 0;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+}
+
+.timer-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+
+.timer-btn {
+  background: #ffffff; border: 3px solid #000000; color: #000000;
+  padding: 8px 24px; border-radius: 6px; font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem; font-weight: 900; cursor: pointer; transition: all 0.2s;
+  box-shadow: 4px 4px 0px rgba(0,0,0,1); display: flex; align-items: center; gap: 6px;
+}
+.timer-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px rgba(0,0,0,1); }
+.timer-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px rgba(0,0,0,1); }
+.timer-btn.active { background: #ff1d25; color: #ffffff; }
+
+.main-grid { display: flex; flex-direction: column; gap: 30px; }
+
+/* Leaderboard */
+.leaderboard-section { display: flex; flex-direction: column; }
+
+#leaderboard {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+
+.leaderboard-section h2.section-title {
+  font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900;
+  color: #000000; text-align: center; margin-bottom: 16px; text-transform: uppercase;
+  letter-spacing: 1px; border-bottom: 3px double #000; padding-bottom: 8px;
+}
+
+.team-card {
+  background: #ffffff; border: 3px solid #000000; border-radius: 0px;
+  margin-bottom: 0; box-shadow: 6px 6px 0px rgba(0,0,0,0.8);
+  transition: all 0.3s ease; position: relative; padding: 4px;
+}
+.team-card:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0px rgba(0,0,0,0.8); }
+
+.team-card-header-band {
+  height: 48px; border: 2px solid #000; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; color: #ffffff; text-align: center;
+  padding: 5px; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+.team-card[data-team="0"] .team-card-header-band { background: #c41e3a; }
+.team-card[data-team="1"] .team-card-header-band { background: #b8962e; }
+.team-card[data-team="2"] .team-card-header-band { background: #1e90ff; }
+
+.team-card-deed-label {
+  font-size: 0.55rem; font-weight: 800; letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 1px; opacity: 0.9;
+}
+.team-name { font-size: 1rem; font-weight: 900; line-height: 1.1; }
+
+.team-card-body { border: 1px solid #000; padding: 8px 12px; background: #fafafa; text-align: center; }
+
+.rent-statement {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: #777; margin-bottom: 5px;
+}
+
+.team-coins { display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 12px; }
+.team-coins .coin-amount {
+  font-family: 'Cabinet Grotesk', sans-serif; font-size: 2.2rem;
+  font-weight: 900; color: #000000; line-height: 1;
+}
+
+.deed-stats-table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 0.75rem; }
+.deed-stats-table tr { border-bottom: 1px dashed rgba(0,0,0,0.12); }
+.deed-stats-table tr:last-child { border-bottom: none; }
+.deed-stats-table td { padding: 2px 0; font-weight: 600; }
+.deed-stats-table td.val { text-align: left; font-weight: 800; }
+
+.house-indicators { display: flex; gap: 5px; justify-content: center; margin-top: 8px; }
+.house {
+  width: 16px; height: 16px; background: #27ae60; position: relative;
+  box-shadow: 2px 2px 0 #000; border: 1px solid #000;
+}
+.house::before {
+  content: ''; position: absolute; top: -8px; left: -1px;
+  width: 0; height: 0; border-left: 8px solid transparent;
+  border-right: 8px solid transparent; border-bottom: 8px solid #27ae60;
+}
+.house.hotel { background: #c41e3a; width: 22px; height: 16px; box-shadow: 2px 2px 0 #000; }
+.house.hotel::before { border-bottom-color: #c41e3a; border-left-width: 11px; border-right-width: 11px; }
+
+.card-rank-badge {
+  position: absolute; top: -8px; left: -8px; background: #000000; color: #ffffff;
+  width: 32px; height: 32px; border: 2px solid #ffffff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 0.9rem; z-index: 10;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+}
+
+.mortgage-value {
+  border-top: 2px solid #000; padding-top: 4px; margin-top: 4px;
+  font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+  color: #555; letter-spacing: 1px;
+}
+
+/* Graph */
+.graph-section {
+  background: #fff0f0; border: 4px solid #000000; border-radius: 8px;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.8); display: flex; flex-direction: column;
+}
+.graph-header {
+  background: linear-gradient(135deg, #1db055, #27ae60);
+  padding: 14px 20px; text-align: center; border-bottom: 3px solid #000;
+  display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff;
+}
+.graph-body { padding: 20px; flex: 1; position: relative; }
+.chart-container { position: relative; height: 320px; }
+.graph-footer {
+  padding: 10px 20px; text-align: center; font-size: 0.85rem;
+  font-weight: 800; color: #1db055; letter-spacing: 1px;
+  border-top: 3px double #000; background: #f0fff0;
+}
+
+/* Celebrations */
+.effect-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1000; overflow: hidden;
+}
+.monopoly-bill {
+  position: absolute; width: 105px; height: 50px; border: 2px solid #000000;
+  border-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  font-family: 'Cabinet Grotesk', sans-serif; font-weight: 900;
+  font-size: 0.9rem; display: flex; flex-direction: column;
+  justify-content: space-between; padding: 4px; pointer-events: none;
+  animation: bill-fall 3.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+@keyframes bill-fall {
+  0% { opacity: 0; transform: translateY(-50px) rotate3d(1,1,1,0deg) scale(0.6); }
+  15% { opacity: 1; transform: translateY(10vh) rotate3d(1,1,1,45deg) scale(1); }
+  100% { opacity: 0; transform: translateY(105vh) rotate3d(1,2,1,360deg) scale(0.7); }
+}
+
+.team-flash { animation: team-flash 0.8s ease-out; }
+@keyframes team-flash {
+  0% { transform: scale(1); box-shadow: 6px 6px 0px rgba(0,0,0,0.8); }
+  30% { transform: scale(1.05); box-shadow: 12px 12px 30px rgba(212,175,55,0.5); border-color: #d4af37; }
+  100% { transform: scale(1); box-shadow: 6px 6px 0px rgba(0,0,0,0.8); }
+}
+
+@keyframes coin-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); color: #27ae60; }
+  100% { transform: scale(1); }
+}
+.coin-pop { animation: coin-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+.footer {
+  text-align: center; margin-top: 40px; padding: 15px;
+  color: #022111; font-size: 0.8rem; font-weight: 800;
+  letter-spacing: 4px; border-top: 3px double #022111; padding-top: 25px;
+}
+
+.last-update { text-align: center; color: #cdb891; font-size: 0.75rem; margin-top: 10px; padding: 4px; opacity: 0.8; }
+
+@media (max-width: 950px) {
+  #leaderboard { grid-template-columns: 1fr; }
+  .timer-display { font-size: 4.5rem; letter-spacing: 2px; }
+  .monopoly-logo-box h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="monopoly-bg"></div>
+<div class="board-strip-top"></div>
+<div class="board-strip-bottom"></div>
+<div class="effect-overlay" id="effectOverlay"></div>
+
+<div class="container">
+  <div class="logo-container">
+    <div class="monopoly-logo-box"><h1>MONOPOLY</h1></div>
+    <div class="logo-ribbon">مسابقة الحفظ</div>
+  </div>
+
+  <div class="board-center">
+    <!-- Timer -->
+    <div class="timer-section" id="timerSection">
+      <div class="chest-card-banner">
+        ⏱ صندوق الجماعة &bull; COMMUNITY CHEST
+      </div>
+      <div class="timer-label">⏳ جلسة حفظ القرآن الكريم الحالية</div>
+      <div class="timer-presets">
+        <button class="preset-btn" onclick="setPreset(5)" id="preset-5">5 دقائق</button>
+        <button class="preset-btn active-preset" onclick="setPreset(15)" id="preset-15">15 دقيقة</button>
+        <button class="preset-btn" onclick="setPreset(30)" id="preset-30">30 دقيقة</button>
+        <button class="preset-btn" onclick="setPreset(45)" id="preset-45">45 دقيقة</button>
+        <button class="preset-btn" onclick="setPreset(60)" id="preset-60">60 دقيقة</button>
+      </div>
+      <div class="timer-display" id="timerDisplay">15:00</div>
+      <div class="timer-controls">
+        <button class="timer-btn" id="startBtn" onclick="startTimer()">▶ بدء الجلسة</button>
+        <button class="timer-btn" onclick="pauseTimer()">⏸ إيقاف مؤقت</button>
+        <button class="timer-btn" onclick="resetTimer()">↺ إعادة ضبط</button>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <div class="leaderboard-section">
+        <h2 class="section-title">🏆 سندات ملكية الفرق</h2>
+        <div id="leaderboard">جاري التحميل...</div>
+      </div>
+
+      <div class="graph-section">
+        <div class="graph-header">
+          📖 <span>تقدم حفظ القرآن &bull; QURAN PROGRESS</span> 🌟
+        </div>
+        <div class="graph-body">
+          <div class="chart-container"><canvas id="pagesChart"></canvas></div>
+        </div>
+        <div class="graph-footer">🚀 كلما حفظت صفحات أكثر، يرتفع خط فريقك نحو الأعلى!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="last-update" id="lastUpdate"></div>
+  <div class="footer">MONOPOLY MEMORIZATION SYSTEM &mdash; BOARD GAME EDITION &mdash; EST. 2026</div>
+</div>
+
+<script>
+// ─── Timer ───
+let totalSeconds = 15 * 60;
+let timerInterval = null;
+let isRunning = false;
+let currentPreset = 15;
+
+function updateDisplay() {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  document.getElementById('timerDisplay').textContent =
+    String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  if (totalSeconds <= 0) {
+    pauseTimer();
+    document.getElementById('startBtn').classList.remove('active');
+    document.getElementById('timerDisplay').style.color = '#ff1d25';
+    setTimeout(() => { document.getElementById('timerDisplay').style.color = '#000000'; }, 2000);
+  }
+}
+
+function setPreset(minutes) {
+  if (isRunning) return;
+  currentPreset = minutes;
+  totalSeconds = minutes * 60;
+  updateDisplay();
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+  const el = document.getElementById('preset-' + minutes);
+  if (el) el.classList.add('active-preset');
+}
+
+function startTimer() {
+  if (totalSeconds <= 0) { totalSeconds = currentPreset * 60; updateDisplay(); }
+  if (isRunning) return;
+  isRunning = true;
+  document.getElementById('startBtn').classList.add('active');
+  timerInterval = setInterval(() => {
+    totalSeconds--;
+    updateDisplay();
+    if (totalSeconds <= 0) { pauseTimer(); }
+  }, 1000);
+}
+
+function pauseTimer() {
+  isRunning = false;
+  clearInterval(timerInterval);
+  timerInterval = null;
+  document.getElementById('startBtn').classList.remove('active');
+}
+
+function resetTimer() {
+  pauseTimer();
+  totalSeconds = currentPreset * 60;
+  updateDisplay();
+  document.getElementById('timerDisplay').style.color = '#000000';
+}
+
+// ─── Team color mapping ───
+const TEAM_MAP = {};
+
+// ─── Leaderboard ───
+let prevHifdh = {};
+
+function triggerCelebration(teamName, pagesAdded) {
+  const cards = document.querySelectorAll('.team-card');
+  for (const card of cards) {
+    if (card.getAttribute('data-name') === teamName) {
+      card.classList.remove('team-flash');
+      void card.offsetWidth;
+      card.classList.add('team-flash');
+      break;
+    }
+  }
+  const coins = document.querySelectorAll('.team-coins');
+  for (const el of coins) {
+    if (el.closest('.team-card')?.getAttribute('data-name') === teamName) {
+      el.classList.remove('coin-pop');
+      void el.offsetWidth;
+      el.classList.add('coin-pop');
+      break;
+    }
+  }
+  const overlay = document.getElementById('effectOverlay');
+  const count = Math.min(12 + Math.floor(pagesAdded * 10), 35);
+  const billColors = [
+    { bg: '#ffd6cc', border: '#b32400', val: '100' },
+    { bg: '#d6f5d6', border: '#1f7a1f', val: '20' },
+    { bg: '#ffebcc', border: '#b37400', val: '500' },
+    { bg: '#e0f0ff', border: '#0066cc', val: '50' },
+    { bg: '#f2e6ff', border: '#5900b3', val: '10' }
+  ];
+  for (let i = 0; i < count; i++) {
+    const config = billColors[i % billColors.length];
+    const bill = document.createElement('div');
+    bill.className = 'monopoly-bill';
+    bill.style.background = config.bg;
+    bill.style.borderColor = config.border;
+    bill.style.color = config.border;
+    bill.style.left = (5 + Math.random() * 90) + '%';
+    bill.style.top = '-80px';
+    const scale = 0.7 + Math.random() * 0.5;
+    bill.style.transform = `scale(${scale})`;
+    bill.style.animationDuration = (2.2 + Math.random() * 1.5) + 's';
+    bill.style.animationDelay = (Math.random() * 0.5) + 's';
+    bill.innerHTML = `
+      <div style="display:flex;justify-content:space-between;width:100%;font-size:0.55rem;">
+        <span>$${config.val}</span><span>$${config.val}</span>
+      </div>
+      <div style="text-align:center;font-size:0.95rem;">MONOPOLY</div>
+      <div style="display:flex;justify-content:space-between;width:100%;font-size:0.55rem;">
+        <span>$${config.val}</span><span>$${config.val}</span>
+      </div>`;
+    overlay.appendChild(bill);
+    setTimeout(() => bill.remove(), 4000);
+  }
+}
+
+const TEAM_COLORS = ['#c41e3a', '#b8962e', '#1e90ff'];
+
+function buildTeamMap(teams) {
+  teams.forEach((t, i) => {
+    TEAM_MAP[t.name] = { index: i, color: TEAM_COLORS[i % TEAM_COLORS.length] };
+  });
+}
+
+function updateLeaderboard(data) {
+  const teams = getCumulativeTeamTotals(data);
+  buildTeamMap(data.teams);
+
+  // Check for changes
+  for (const team of teams) {
+    const prev = prevHifdh[team.team_name] || 0;
+    const added = team.total_hifdh - prev;
+    if (added > 0 && prev > 0) {
+      triggerCelebration(team.team_name, added);
+    }
+    prevHifdh[team.team_name] = team.total_hifdh;
+  }
+
+  const container = document.getElementById('leaderboard');
+  container.innerHTML = teams.map((team, i) => {
+    const meta = TEAM_MAP[team.team_name] || { index: i, color: '#888' };
+    const hifdh = team.total_hifdh;
+    const houseCount = Math.min(Math.floor(hifdh / 0.5), 5);
+    return `
+      <div class="team-card rank-${i + 1}" data-team="${meta.index}" data-name="${team.team_name}">
+        <div class="card-rank-badge">${i + 1}</div>
+        <div class="team-card-inner">
+          <div class="team-card-header-band">
+            <div class="team-card-deed-label">سند ملكية &bull; TITLE DEED</div>
+            <div class="team-name">${team.team_name}</div>
+          </div>
+          <div class="team-card-body">
+            <div class="rent-statement">مجموع أوراق النقد المتراكمة</div>
+            <div class="team-coins">
+              <span class="coin-amount">💲${team.total_points.toLocaleString()}</span>
+            </div>
+            <table class="deed-stats-table">
+              <tr><td>📖 مجموع الحفظ</td><td class="val">${team.total_hifdh} صفحة</td></tr>
+              <tr><td>📖 مجموع التلاوة</td><td class="val">${team.total_tilawah} صفحة</td></tr>
+              <tr><td>📖 مجموع الربط</td><td class="val">${team.total_rabt} صفحة</td></tr>
+              <tr><td>💵 مجموع النقاط</td><td class="val">💲${team.total_points}</td></tr>
+            </table>
+            <div class="house-indicators">
+              ${houseCount > 0 && houseCount < 5 ? Array(houseCount).fill('<div class="house"></div>').join('') : ''}
+              ${houseCount >= 5 ? '<div class="house hotel"></div>' : ''}
+            </div>
+            <div class="mortgage-value">قيمة الرهن العقاري 💲150 &bull; تأسس 2026</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ─── Chart ───
+let pagesChart = null;
+
+function updateChart(data) {
+  const history = getCumulativeHistory(data);
+  const sessions = [...new Set(history.map(h => h.date))];
+  const teams = [...new Set(history.map(h => h.team_name))];
+
+  const datasets = teams.map(team => {
+    const teamData = history.filter(h => h.team_name === team);
+    const cumMap = {};
+    teamData.forEach(h => { cumMap[h.date] = h.cumulative_hifdh; });
+    const meta = TEAM_MAP[team] || { color: '#888' };
+    return {
+      label: team,
+      data: sessions.map(s => cumMap[s] || 0),
+      borderColor: meta.color,
+      backgroundColor: meta.color + '20',
+      fill: true,
+      tension: 0.4,
+      borderWidth: 5,
+      pointBackgroundColor: meta.color,
+      pointBorderColor: '#ffffff',
+      pointBorderWidth: 3,
+    };
+  });
+
+  if (pagesChart) {
+    pagesChart.data.labels = sessions;
+    pagesChart.data.datasets = datasets;
+    pagesChart.update('none');
+  } else {
+    const ctx = document.getElementById('pagesChart').getContext('2d');
+    pagesChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels: sessions, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#000', font: { family: 'Cairo', size: 14, weight: 'bold' },
+              padding: 20, usePointStyle: true, pointStyle: 'circle', boxWidth: 20
+            }
+          },
+          tooltip: {
+            backgroundColor: '#fff', titleColor: '#000', bodyColor: '#c41e3a',
+            borderColor: '#000', borderWidth: 3, padding: 14, cornerRadius: 8,
+            titleFont: { family: 'Cairo', weight: 'bold', size: 16 },
+            bodyFont: { family: 'Cairo', weight: 'bold', size: 15 },
+            callbacks: {
+              label: function(ctx) { return ` ${ctx.dataset.label}: ${ctx.parsed.y} صفحة`; }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#000', font: { family: 'Cairo', size: 13, weight: '700' } },
+            grid: { color: 'rgba(0,0,0,0.1)', borderWidth: 2 },
+            title: { display: true, text: '📅 الجلسات', color: '#000', font: { family: 'Cairo', size: 15, weight: 'bold' } }
+          },
+          y: {
+            ticks: { color: '#000', font: { family: 'Cairo', size: 14, weight: '700' }, stepSize: 1 },
+            grid: { color: 'rgba(0,0,0,0.1)', borderWidth: 2 },
+            title: { display: true, text: '📖 الصفحات المحفوظة', color: '#000', font: { family: 'Cairo', size: 15, weight: 'bold' } },
+            beginAtZero: true
+          }
+        },
+        interaction: { intersect: false, mode: 'index' },
+        elements: { point: { radius: 8, hoverRadius: 14, borderWidth: 3 }, line: { borderWidth: 5 } }
+      }
+    });
+  }
+}
+
+// ─── Main loop ───
+async function fetchData() {
+  try {
+    const data = await loadData();
+    updateLeaderboard(data);
+    updateChart(data);
+    const now = new Date().toLocaleTimeString('ar-EG');
+    document.getElementById('lastUpdate').textContent = `آخر تحديث: ${now}`;
+  } catch (e) {
+    console.error('Fetch error:', e);
+  }
+}
+
+fetchData();
+setInterval(fetchData, 15000);
+</script>
+</body>
+</html>

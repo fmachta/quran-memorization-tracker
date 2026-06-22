@@ -1,0 +1,741 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "name": "نجوم ال MMS"
+    },
+    {
+      "id": 2,
+      "name": "تاج النور"
+    },
+    {
+      "id": 3,
+      "name": "قيادة العمليات العسكرية"
+    }
+  ],
+  "students": [
+    {
+      "id": 14,
+      "name": "احمد قدة",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 10,
+      "name": "حمزة الجاجة",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 9,
+      "name": "راتب تسابحجي",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 13,
+      "name": "سمير ستوت",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 11,
+      "name": "عبد الرحمن مهايني",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 15,
+      "name": "عمر حفار",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 12,
+      "name": "ليث",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 17,
+      "name": "نبيل نحاس",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 16,
+      "name": "وليد بزرة",
+      "team_id": 2,
+      "team_name": "تاج النور"
+    },
+    {
+      "id": 21,
+      "name": "انس الخطيب",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 20,
+      "name": "جاد الزين",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 24,
+      "name": "جود جاويش",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 27,
+      "name": "خالد الخيمي",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 18,
+      "name": "ساريا",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 25,
+      "name": "عبد الغني جاويش",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 22,
+      "name": "عبد الكريم السقا",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 19,
+      "name": "عبد الكريم طالب اغا",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 23,
+      "name": "عمر دركشلي",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 26,
+      "name": "موفق النجار",
+      "team_id": 3,
+      "team_name": "قيادة العمليات العسكرية"
+    },
+    {
+      "id": 5,
+      "name": "أديب قدة",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 1,
+      "name": "تيم تسابحجي",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 6,
+      "name": "جاد محروس",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 8,
+      "name": "علي جركس",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 4,
+      "name": "عماد بيروتي",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 2,
+      "name": "عمر حورية",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 3,
+      "name": "كرم عكاشة",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    },
+    {
+      "id": 7,
+      "name": "كريم شخاشيرو",
+      "team_id": 1,
+      "team_name": "نجوم ال MMS"
+    }
+  ],
+  "sessions": [
+    {
+      "id": 1,
+      "date": "14/6/2026",
+      "label": "الموعد 1"
+    },
+    {
+      "id": 2,
+      "date": "2026-06-16",
+      "label": "الموعد 2"
+    },
+    {
+      "id": 3,
+      "date": "2026-06-21",
+      "label": "الموعد 3"
+    }
+  ],
+  "entries": [
+    {
+      "id": 1,
+      "student_id": 2,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.0,
+      "points": 100,
+      "notes": "ربط سورة البروج كاملة عند استاذ زيد بلش بسورة الانشقاق ⬅️ (صفحة ربط).\n100💲"
+    },
+    {
+      "id": 2,
+      "student_id": 3,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": "سمع لاية ٨ الجن بس بدها اعادة"
+    },
+    {
+      "id": 3,
+      "student_id": 4,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 1.25,
+      "rabt_pages": 0.0,
+      "points": 65,
+      "notes": "تلاوة سورة الشمس (نص صفحة) + سورة الليل.\n⬅️ (صفحة و ربع تلاوة)\n65💲"
+    },
+    {
+      "id": 4,
+      "student_id": 5,
+      "session_id": 1,
+      "hifdh_pages": 0.75,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 65,
+      "notes": "سورة الغاشية من اية 1 ل 10 +  11 ل 20 + 21 للاخير.⬅️ (حفظ 0.75 صفحة بس مقطعة  )\n65💲"
+    },
+    {
+      "id": 5,
+      "student_id": 6,
+      "session_id": 1,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 20,
+      "notes": "ربط سورة الهمزة.\n⬅️ (اربع اسطر  حفظ) اقل شي 8 اسطر ❗\n20💲"
+    },
+    {
+      "id": 6,
+      "student_id": 12,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": "حاول يسمع سورة الفجر ما زبطت (بحاجة اعادة )\nسمير ستوت :\nسورة الفيل بحاجة اعادة"
+    },
+    {
+      "id": 7,
+      "student_id": 14,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": "اعادة سور المطففين بس مالها راكزة عادها من الأول من شان يجهزها للربط."
+    },
+    {
+      "id": 8,
+      "student_id": 15,
+      "session_id": 1,
+      "hifdh_pages": 1.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.0,
+      "points": 90,
+      "notes": "سمع اخر صفحة و ربطها للاستاذ ايهم\n⬅️ ( تسميع صفحة 604)\n90💲"
+    },
+    {
+      "id": 9,
+      "student_id": 17,
+      "session_id": 1,
+      "hifdh_pages": 1.75,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 155,
+      "notes": "سمع سورة الملك لاية ٢١.\n⬅️ (حفظ 1.75 صفحة )\n155💲"
+    },
+    {
+      "id": 10,
+      "student_id": 21,
+      "session_id": 1,
+      "hifdh_pages": 0.25,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 30,
+      "notes": "سمع سورة الطور من اية 20 ل 22 .\n(سطرين و نصف)  حفظ سابق\nسمع سورة الذاريات من اية ٢١-٢٧\n⬅️ (اربع اسطر ونصف حفظ)\n30💲"
+    },
+    {
+      "id": 11,
+      "student_id": 24,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.25,
+      "points": 125,
+      "notes": "ربط الليل والشمش عند استاذ ايهم.\n⬅️ (ربط 1.25 صفحة)\n125💲"
+    },
+    {
+      "id": 12,
+      "student_id": 25,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.5,
+      "points": 50,
+      "notes": "سمع سورة الشمس و ربطها عند استاذ ايهم.\n⬅️ (ربط نصف صفحة)\n50💲"
+    },
+    {
+      "id": 13,
+      "student_id": 26,
+      "session_id": 1,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة المرسلات من اية ٣٨-٤٣ (٤ سطور)\n+ سمع من اية ٤٤-٥٠ (٤ سطور)\nسورة المرسلات خلصت بس بدها ربط\n⬅️ (حفظ نصف صفحة مقطعة)\n45💲"
+    },
+    {
+      "id": 14,
+      "student_id": 1,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 15,
+      "student_id": 8,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 16,
+      "student_id": 7,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 17,
+      "student_id": 10,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 18,
+      "student_id": 9,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 19,
+      "student_id": 13,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 20,
+      "student_id": 11,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 21,
+      "student_id": 16,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 22,
+      "student_id": 20,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 23,
+      "student_id": 18,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 24,
+      "student_id": 22,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 25,
+      "student_id": 19,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 26,
+      "student_id": 23,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 27,
+      "student_id": 12,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.25,
+      "points": 125,
+      "notes": "سورة الفجر"
+    },
+    {
+      "id": 28,
+      "student_id": 5,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.0,
+      "points": 100,
+      "notes": "سورة الغاشية ربط"
+    },
+    {
+      "id": 29,
+      "student_id": 25,
+      "session_id": 2,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة الليل من الأول ل اية 17"
+    },
+    {
+      "id": 30,
+      "student_id": 3,
+      "session_id": 2,
+      "hifdh_pages": 1.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 90,
+      "notes": "أول صفحة من سورة الجن"
+    },
+    {
+      "id": 31,
+      "student_id": 11,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.0,
+      "points": 100,
+      "notes": "ربط سورة الغاشية"
+    },
+    {
+      "id": 33,
+      "student_id": 14,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.25,
+      "points": 125,
+      "notes": "سورة المطففين ربط"
+    },
+    {
+      "id": 34,
+      "student_id": 2,
+      "session_id": 2,
+      "hifdh_pages": 0.25,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": "سورة الانشقاق من 1-8"
+    },
+    {
+      "id": 35,
+      "student_id": 18,
+      "session_id": 2,
+      "hifdh_pages": 0.25,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": "سورة الممتحنة من 2-3"
+    },
+    {
+      "id": 36,
+      "student_id": 19,
+      "session_id": 2,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة الطلاق من 3 الى 5"
+    },
+    {
+      "id": 37,
+      "student_id": 20,
+      "session_id": 2,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة البلد من 1-13"
+    },
+    {
+      "id": 38,
+      "student_id": 21,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": "سورة الذاريات اية 30 فقط"
+    },
+    {
+      "id": 39,
+      "student_id": 22,
+      "session_id": 2,
+      "hifdh_pages": 1.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 90,
+      "notes": "سورة الممتحنة من 1-5"
+    },
+    {
+      "id": 47,
+      "student_id": 27,
+      "session_id": 1,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 48,
+      "student_id": 27,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 50,
+      "student_id": 15,
+      "session_id": 2,
+      "hifdh_pages": 1.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 3.0,
+      "points": 100,
+      "notes": "قبل اخر صفحة من المصحف 601-602-603"
+    },
+    {
+      "id": 51,
+      "student_id": 1,
+      "session_id": 2,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 0,
+      "notes": ""
+    },
+    {
+      "id": 54,
+      "student_id": 14,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة التكوير من البداية الى آية 15"
+    },
+    {
+      "id": 55,
+      "student_id": 15,
+      "session_id": 3,
+      "hifdh_pages": 1.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.0,
+      "points": 100,
+      "notes": "ربط سورة القارعة والتكاثر"
+    },
+    {
+      "id": 56,
+      "student_id": 23,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة الملك من 19 الى 25"
+    },
+    {
+      "id": 57,
+      "student_id": 10,
+      "session_id": 3,
+      "hifdh_pages": 1.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 1.25,
+      "points": 125,
+      "notes": "ريط سورة الفجر"
+    },
+    {
+      "id": 58,
+      "student_id": 18,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة الممتحنة 3-5"
+    },
+    {
+      "id": 59,
+      "student_id": 25,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.5,
+      "points": 50,
+      "notes": "سورة الليل ربط"
+    },
+    {
+      "id": 60,
+      "student_id": 2,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة الانشقاق 1-15"
+    },
+    {
+      "id": 61,
+      "student_id": 20,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.5,
+      "points": 50,
+      "notes": "سورة البلد ربط"
+    },
+    {
+      "id": 66,
+      "student_id": 9,
+      "session_id": 3,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 2.0,
+      "points": 200,
+      "notes": "سورة الطلاق ربط"
+    },
+    {
+      "id": 67,
+      "student_id": 3,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.0,
+      "points": 45,
+      "notes": "سورة الجن 14-19"
+    },
+    {
+      "id": 68,
+      "student_id": 12,
+      "session_id": 3,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 0.5,
+      "points": 55,
+      "notes": "سورة الأعلى ربط"
+    },
+    {
+      "id": 69,
+      "student_id": 17,
+      "session_id": 3,
+      "hifdh_pages": 0.0,
+      "tilawah_pages": 0.0,
+      "rabt_pages": 2.25,
+      "points": 225,
+      "notes": "سورة الملك ربط"
+    }
+  ],
+  "cards": [],
+  "cardDrawn": {}
+}
