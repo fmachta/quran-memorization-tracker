@@ -302,7 +302,11 @@ async function initApp() {
     });
     if (!res.ok) throw new Error('تعذر تحميل البيانات');
     const file = await res.json();
-    appData = JSON.parse(atob(file.content));
+    const binStr = atob(file.content);
+    const bytes = new Uint8Array(binStr.length);
+    for (let i = 0; i < binStr.length; i++) bytes[i] = binStr.charCodeAt(i);
+    const jsonStr = new TextDecoder('utf-8').decode(bytes);
+    appData = JSON.parse(jsonStr);
     populateUI();
   } catch (e) {
     showToast('تعذر تحميل data.json: ' + e.message, 'error');
