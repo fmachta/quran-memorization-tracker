@@ -192,6 +192,11 @@
       "id": 3,
       "date": "2026-06-21",
       "label": "الموعد 3"
+    },
+    {
+      "id": 4,
+      "date": "2026-06-23",
+      "label": "اختبار النظام"
     }
   ],
   "entries": [
@@ -734,6 +739,16 @@
       "rabt_pages": 2.25,
       "points": 225,
       "notes": "سورة الملك ربط"
+    },
+    {
+      "id": 70,
+      "student_id": 1,
+      "session_id": 4,
+      "hifdh_pages": 0.5,
+      "tilawah_pages": 0,
+      "rabt_pages": 0,
+      "points": 50,
+      "notes": "اختبار تلقائي - Hermes"
     }
   ],
   "cards": [],
